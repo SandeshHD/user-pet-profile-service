@@ -70,10 +70,6 @@ const router = express.Router({ mergeParams: true });
  *                     _id:
  *                       type: string
  *                       description: The ID of the health record
- *                     date:
- *                       type: string
- *                       format: date
- *                       description: Record creation date
  *                     description:
  *                       type: string
  *                       description: Description of the health issue or event
@@ -131,10 +127,6 @@ router.post('/:petId', authMiddleware, healthRecordController.addHealthRecord);
  *                   _id:
  *                     type: string
  *                     description: The ID of the health record
- *                   date:
- *                     type: string
- *                     format: date
- *                     description: Record creation date
  *                   description:
  *                     type: string
  *                     description: Description of the health issue or event
@@ -196,10 +188,6 @@ router.get('/:petId', authMiddleware, healthRecordController.getAllHealthRecords
  *                 _id:
  *                   type: string
  *                   description: The ID of the health record
- *                 date:
- *                   type: string
- *                   format: date
- *                   description: Record creation date
  *                 description:
  *                   type: string
  *                   description: Description of the health issue or event
@@ -256,10 +244,6 @@ router.get('/:petId/:recordId', authMiddleware, healthRecordController.getHealth
  *               description:
  *                 type: string
  *                 description: Description of the health issue or event
- *               date:
- *                 type: string
- *                 format: date
- *                 description: Record creation date
  *               vet:
  *                 type: string
  *                 description: Name or ID of the vet who treated the pet
@@ -291,10 +275,6 @@ router.get('/:petId/:recordId', authMiddleware, healthRecordController.getHealth
  *                     _id:
  *                       type: string
  *                       description: The ID of the health record
- *                     date:
- *                       type: string
- *                       format: date
- *                       description: Record creation date
  *                     description:
  *                       type: string
  *                       description: Description of the health issue or event

@@ -3,7 +3,7 @@ const Pet = require('../models/Pet');
 // Add a new health record for a specific pet
 exports.addHealthRecord = async (req, res) => {
     const { petId } = req.params;
-    const { date, description, vet, vaccine, dateAdministered, nextDueDate } = req.body;
+    const { description, vet, vaccine, dateAdministered, nextDueDate } = req.body;
 
     try {
         const pet = await Pet.findOne({ _id: petId, user: req.user.userId });
@@ -13,7 +13,6 @@ exports.addHealthRecord = async (req, res) => {
 
         // Create a new health record object
         const healthRecord = {
-            date: date || Date.now(),
             description,
             vet,
             vaccine,
@@ -72,7 +71,7 @@ exports.getHealthRecordById = async (req, res) => {
 // Update a specific health record
 exports.updateHealthRecord = async (req, res) => {
     const { petId, recordId } = req.params;
-    const { date, description, vet, vaccine, dateAdministered, nextDueDate } = req.body;
+    const { description, vet, vaccine, dateAdministered, nextDueDate } = req.body;
 
     try {
         const pet = await Pet.findOne({ _id: petId, user: req.user.userId });
@@ -86,7 +85,6 @@ exports.updateHealthRecord = async (req, res) => {
         }
 
         // Update fields if provided in the request body
-        if (date) healthRecord.date = date;
         if (description) healthRecord.description = description;
         if (vet) healthRecord.vet = vet;
         if (vaccine) healthRecord.vaccine = vaccine;

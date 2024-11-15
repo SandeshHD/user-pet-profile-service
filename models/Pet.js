@@ -34,7 +34,6 @@ const petSchema = new mongoose.Schema(
         },
         medicalHistory: [
             {
-                date: { type: Date, default: Date.now },
                 description: { type: String, trim: true },
                 vet: { type: String, trim: true },
                 vaccine: { type: String, trim: true },
