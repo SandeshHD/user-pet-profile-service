@@ -9,7 +9,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:3000',
+            url: 'http://a06cf61359d3241b9b42f20559c64708-1110539367.ap-southeast-1.elb.amazonaws.com',
         },
     ],
     components: {

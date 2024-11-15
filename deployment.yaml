@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pet-health-care-api
+  labels:
+    app: pet-health-care-api
+spec:
+  replicas: 3 # The number of replicas (pods) you want
+  selector:
+    matchLabels:
+      app: pet-health-care-api
+  template:
+    metadata:
+      labels:
+        app: pet-health-care-api
+    spec:
+      containers:
+        - name: pet-health-care-api
+          image: sandeshhd/pet-health-care-api:latest # Replace with your image
+          ports:
+            - containerPort: 3000 # Exposing the port that your app is running on
+          env:
+            - name: PORT
+              value: "3000"
+            - name: DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: uri
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: secret # Assuming you store JWT_SECRET in a Secret named jwt-secrets
+          imagePullPolicy: Always # Always pull the latest image
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-health-care-api-service
+spec:
+  selector:
+    app: pet-health-care-api
+  ports:
+    - protocol: TCP
+      port: 80 # The port that the service exposes
+      targetPort: 3000 # The port your app listens on
+  type: LoadBalancer # Use LoadBalancer if you want to expose it outside the cluster
