@@ -2,7 +2,7 @@ const Pet = require('../models/Pet');
 
 // Add a new pet
 exports.addPet = async (req, res) => {
-    const { name, species, age, breed } = req.body;
+    const { name, species, age, breed,weight } = req.body;
 
     try {
         // Create a new pet
@@ -19,6 +19,7 @@ exports.addPet = async (req, res) => {
         await pet.save();
         res.status(201).json({ message: 'Pet added successfully', pet });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'Server error' });
     }
 };
