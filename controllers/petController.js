@@ -2,7 +2,7 @@ const Pet = require('../models/Pet');
 
 // Add a new pet
 exports.addPet = async (req, res) => {
-    const { name, species, age, breed,weight } = req.body;
+    const { name, species, age, breed } = req.body;
 
     try {
         // Create a new pet
@@ -11,15 +11,18 @@ exports.addPet = async (req, res) => {
             name,
             species,
             age,
-            breed,
-            weight
+            breed
         });
 
         // Save pet to the database
         await pet.save();
         res.status(201).json({ message: 'Pet added successfully', pet });
     } catch (error) {
-        console.log(error)
+        if (error.name === 'ValidationError') {
+            // Handle Mongoose validation errors
+            const errorMessages = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({ message: 'Validation error', errors: errorMessages });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -52,7 +55,7 @@ exports.getPetById = async (req, res) => {
 // Update pet details
 exports.updatePet = async (req, res) => {
     const { petId } = req.params;
-    const { name, species, age, breed, weight } = req.body;
+    const { name, species, age, breed } = req.body;
 
     try {
         const pet = await Pet.findOne({ _id: petId, user: req.user.userId });
@@ -65,11 +68,14 @@ exports.updatePet = async (req, res) => {
         if (species) pet.species = species;
         if (age) pet.age = age;
         if (breed) pet.breed = breed;
-        if (weight) pet.weight = weight
 
         await pet.save();
         res.json({ message: 'Pet updated successfully', pet });
     } catch (error) {
+        if (error.name === 'ValidationError') {
+            const errorMessages = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({ message: 'Validation error', errors: errorMessages });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -84,6 +90,29 @@ exports.deletePet = async (req, res) => {
             return res.status(404).json({ message: 'Pet not found' });
         }
 
+        res.json({ message: 'Pet deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Get all pets (admin only)
+exports.getAllPets = async (req, res) => {
+    try {
+        const pets = await Pet.find();
+        res.json(pets);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Delete a pet (admin only)
+exports.deletePet = async (req, res) => {
+    try {
+        const pet = await Pet.findByIdAndDelete(req.params.petId);
+        if (!pet) {
+            return res.status(404).json({ message: 'Pet not found' });
+        }
         res.json({ message: 'Pet deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });

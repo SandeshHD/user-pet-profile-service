@@ -9,7 +9,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://a06cf61359d3241b9b42f20559c64708-1110539367.ap-southeast-1.elb.amazonaws.com',
+            url: 'http://a487d8b00bc6542ca91c2dd298684952-1223040857.us-east-1.elb.amazonaws.com',
         },
     ],
     components: {
@@ -30,7 +30,7 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    apis: ['./routes/userRoutes.js','./routes/petRoutes.js','./routes/preferencesRoutes.js','./routes/healthRecordRoutes.js'], // Path to the API docs
+    apis: ['./routes/adminRoutes.js','./routes/userRoutes.js','./routes/petRoutes.js','./routes/preferencesRoutes.js','./routes/healthRecordRoutes.js'], // Path to the API docs
 };
 
 module.exports = swaggerJSDoc(options);

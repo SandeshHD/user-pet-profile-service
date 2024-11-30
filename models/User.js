@@ -28,8 +28,7 @@ const preferencesSchema = new mongoose.Schema({
     appointmentReminders: {
         type: Boolean,
         default: true
-    },
-    // Add more preference fields as needed
+    }
 });
 
 const userSchema = new mongoose.Schema({
@@ -61,6 +60,10 @@ const userSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    role: {
+        type: String,
+        default: 'user'
     }
 });
 

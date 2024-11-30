@@ -34,8 +34,6 @@ const router = express.Router();
  *                 type: string
  *               age:
  *                 type: number
- *               weight:
- *                 type: number
  *             required:
  *               - name
  *               - species
@@ -76,8 +74,6 @@ router.post('/', authMiddleware, petController.addPet);
  *                   breed:
  *                     type: string
  *                   age:
- *                     type: number
- *                   weight:
  *                     type: number
  *       401:
  *         description: Unauthorized
@@ -142,8 +138,6 @@ router.get('/:petId', authMiddleware, petController.getPetById);
  *               breed:
  *                 type: string
  *               age:
- *                 type: number
- *               weight:
  *                 type: number
  *     responses:
  *       200:

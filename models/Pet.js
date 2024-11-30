@@ -28,10 +28,6 @@ const petSchema = new mongoose.Schema(
             trim: true,
             required: [true, 'Please specify the breed of the pet'],
         },
-        weight: {
-            type: Number,
-            min: [0, 'Weight cannot be negative']
-        },
         medicalHistory: [
             {
                 description: { type: String, trim: true },

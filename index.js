@@ -17,11 +17,12 @@ const userRoutes = require('./routes/userRoutes');
 const petRoutes = require('./routes/petRoutes');
 const healthRecordRoutes = require('./routes/healthRecordRoutes');
 const preferencesRoutes = require('./routes/preferencesRoutes');
-
+const adminRoutes = require('./routes/adminRoutes');
 app.use('/api/users', userRoutes);
 app.use('/api/pets', petRoutes);
 app.use('/api/health-records', healthRecordRoutes);
 app.use('/api/preferences', preferencesRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to Pet Health & Care Management API' });

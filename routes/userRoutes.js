@@ -163,4 +163,31 @@ router.put('/profile', authMiddleware, userController.updateUserProfile);
  */
 router.delete('/profile', authMiddleware, userController.deleteUserAccount);
 
+/**
+ * @openapi
+ * /api/users/verify-token:
+ *   get:
+ *     summary: Verify if the authentication token is valid
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Token is valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Token is valid
+ *       401:
+ *         description: Unauthorized, token is invalid or expired
+ *       500:
+ *         description: Server error
+ */
+
+router.get('/verify-token', authMiddleware, userController.verifyToken);
+
 module.exports = router;

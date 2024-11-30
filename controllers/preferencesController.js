@@ -30,6 +30,12 @@ exports.updateUserPreferences = async (req, res) => {
 
         res.json({ message: 'Preferences updated successfully', preferences: user.preferences });
     } catch (error) {
+        if (error.name === 'ValidationError') {
+            // Handle Mongoose validation errors
+            const errorMessages = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({ message: 'Validation error', errors: errorMessages });
+        }
+        res.status(500).json({ message: 'Server error' });
         res.status(500).json({ message: 'Server error' });
     }
 };

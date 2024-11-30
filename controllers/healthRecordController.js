@@ -127,3 +127,53 @@ exports.deleteHealthRecord = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+exports.deleteHealthRecordForAdmin = async (req, res) => {
+    const { petId, recordId } = req.params;
+
+    try {
+        const pet = await Pet.findOne({ _id: petId });
+        if (!pet) {
+            return res.status(404).json({ message: 'Pet not found' });
+        }
+
+        // Find the index of the health record in the medicalHistory array
+        const recordIndex = pet.medicalHistory.findIndex(
+            (record) => record._id.toString() === recordId
+        );
+
+        if (recordIndex === -1) {
+            return res.status(404).json({ message: 'Health record not found' });
+        }
+
+        // Remove the health record from the medicalHistory array
+        pet.medicalHistory.splice(recordIndex, 1);
+        await pet.save();
+
+        res.json({ message: 'Health record deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Get all health records (admin only)
+exports.getAllHealthRecords = async (req, res) => {
+    try {
+        // Fetch all pets with their health records
+        const pets = await Pet.find({}, 'name medicalHistory')
+            .populate('user', 'name email') // Populate the owner's information
+            .exec();
+
+        const allHealthRecords = pets.map((pet) => ({
+            petId: pet._id,
+            petName: pet.name,
+            owner: pet.user,
+            medicalHistory: pet.medicalHistory,
+        }));
+
+        res.json({ message: 'Health records retrieved successfully', records: allHealthRecords });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
